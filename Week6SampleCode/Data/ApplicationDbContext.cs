@@ -15,6 +15,7 @@ namespace Week6SampleCode.Data
 
             IdentityUser identityUser = new IdentityUser
             {
+                Id= Guid.NewGuid().ToString(),
                 Email = "paul.powell@atu.ie",
                 EmailConfirmed = true,
                 UserName = "paul.powell@atu.ie",
@@ -26,6 +27,21 @@ namespace Week6SampleCode.Data
             identityUser.PasswordHash = ph.HashPassword(identityUser, "Rad301$123");
             builder.Entity<IdentityUser>().HasData(
                                     identityUser);
+            // Create an admin Role
+            IdentityRole identityRole = new() { ConcurrencyStamp = Guid.NewGuid().ToString(),
+                    Id= Guid.NewGuid().ToString(), Name="Admin", NormalizedName="ADMIN"
+            };
+            builder.Entity<IdentityRole>().HasData(
+                                                identityRole);
+
+            // Put the Seeded user in that Role.
+            IdentityUserRole<string> identityUserRole = new() 
+                                        { RoleId = identityRole.Id, 
+                                          UserId = identityUser.Id // created in previous migration
+            };
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                                                identityUserRole);
+
             base.OnModelCreating(builder);
         }
     }
