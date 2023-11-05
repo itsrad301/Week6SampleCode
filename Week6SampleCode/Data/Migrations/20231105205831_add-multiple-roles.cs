@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Week6SampleCode.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class roleclaims : Migration
+    public partial class addmultipleroles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,22 +30,34 @@ namespace Week6SampleCode.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6a67e5bb-28c6-46d1-9f41-ac19cd66ae06", "051260a9-b82e-4179-a6ba-b8c0af625c7e", "Admin", "ADMIN" });
+                values: new object[,]
+                {
+                    { "02a72bc6-1666-48a0-ac62-e95d7ad68c3e", "f35e63ab-cd9d-45d5-8ff7-7e93f2a2979c", "Club Captain", "CLUB CAPTAIN" },
+                    { "52efc262-5c40-4698-af4c-f52de3a4f308", "0d9846b1-a439-4542-9833-8ff69bf9dc67", "Admin", "ADMIN" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5a2b96c7-2da6-4996-ab7b-a213af70db99", 0, "7235deeb-19da-4f15-bf8e-21e68dd97d4c", "paul.powell@atu.ie", true, false, null, null, "PAUL.POWELL@ATU.IE", "AQAAAAIAAYagAAAAENaJpw1jgica/WOLIERgsuAg7dcqM6fHoYD0en6LASa+br/0sv2g2sI7imKS5y2PYA==", null, false, "d6228387-987d-4569-9ae8-bc40a1b20eb8", false, "paul.powell@atu.ie" });
+                values: new object[] { "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9", 0, "8aa35b87-e64d-45a5-8ed5-8e769cebaedb", "paul.powell@atu.ie", true, false, null, null, "PAUL.POWELL@ATU.IE", "AQAAAAIAAYagAAAAEJOxa7ErbfNjyTL04K0/Hdmjt+rqX7ox1yGBpG4MnDmN/auQdnJt+k/n3A2F0MsV7A==", null, false, "698d8545-ab32-4285-a294-6d06dd87234c", false, "paul.powell@atu.ie" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
-                values: new object[] { 1, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin", "5a2b96c7-2da6-4996-ab7b-a213af70db99" });
+                values: new object[,]
+                {
+                    { 1, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Admin", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" },
+                    { 2, "http://schemas.microsoft.com/ws/2008/06/identity/claims/role", "Club Captain", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "6a67e5bb-28c6-46d1-9f41-ac19cd66ae06", "5a2b96c7-2da6-4996-ab7b-a213af70db99" });
+                values: new object[,]
+                {
+                    { "02a72bc6-1666-48a0-ac62-e95d7ad68c3e", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" },
+                    { "52efc262-5c40-4698-af4c-f52de3a4f308", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" }
+                });
         }
 
         /// <inheritdoc />
@@ -55,19 +69,34 @@ namespace Week6SampleCode.Data.Migrations
                 keyValue: 1);
 
             migrationBuilder.DeleteData(
+                table: "AspNetUserClaims",
+                keyColumn: "Id",
+                keyValue: 2);
+
+            migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "6a67e5bb-28c6-46d1-9f41-ac19cd66ae06", "5a2b96c7-2da6-4996-ab7b-a213af70db99" });
+                keyValues: new object[] { "02a72bc6-1666-48a0-ac62-e95d7ad68c3e", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" });
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUserRoles",
+                keyColumns: new[] { "RoleId", "UserId" },
+                keyValues: new object[] { "52efc262-5c40-4698-af4c-f52de3a4f308", "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9" });
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "6a67e5bb-28c6-46d1-9f41-ac19cd66ae06");
+                keyValue: "02a72bc6-1666-48a0-ac62-e95d7ad68c3e");
+
+            migrationBuilder.DeleteData(
+                table: "AspNetRoles",
+                keyColumn: "Id",
+                keyValue: "52efc262-5c40-4698-af4c-f52de3a4f308");
 
             migrationBuilder.DeleteData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "5a2b96c7-2da6-4996-ab7b-a213af70db99");
+                keyValue: "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",

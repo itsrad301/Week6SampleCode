@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +16,22 @@ namespace Week6SampleCode.Controllers
     [Authorize(Roles ="Admin")]
     public class CategoriesController : Controller
     {
+        private readonly SignInManager<IdentityUser> _signinManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly BusinessContext _context;
 
-        public CategoriesController(BusinessContext context)
+        public CategoriesController(BusinessContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
+            _signinManager = signInManager;
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
+              var claims = _signinManager.Context.User.Claims.Where(r => r.Type == ClaimTypes.Role).Select( v => v.Value).ToList();
+               ViewData["claims"] = claims;
               return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'BusinessContext.Categories'  is null.");

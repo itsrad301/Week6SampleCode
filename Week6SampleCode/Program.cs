@@ -21,10 +21,7 @@ namespace Week6SampleCode
                         options.UseSqlServer(connectionString));
 
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddUserManager<IdentityUser>()
-                .AddRoles<IdentityRole>(); // Necessary to support roles
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddControllersWithViews();
 

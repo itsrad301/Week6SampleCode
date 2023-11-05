@@ -29,32 +29,57 @@ namespace Week6SampleCode.Data
             builder.Entity<IdentityUser>().HasData(
                                     identityUser);
             // Create an admin Role
-            IdentityRole identityRole = new() { ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    Id= Guid.NewGuid().ToString(), Name="Admin", NormalizedName="ADMIN"
+            IdentityRole[] identityRoles = new IdentityRole[]{ 
+                new() { ConcurrencyStamp = Guid.NewGuid().ToString(),
+                    Id= Guid.NewGuid().ToString(), Name="Admin", NormalizedName="ADMIN"},
+                new() { ConcurrencyStamp = Guid.NewGuid().ToString(),
+                    Id= Guid.NewGuid().ToString(), Name="Club Captain", NormalizedName="CLUB CAPTAIN"}
             };
-            builder.Entity<IdentityRole>().HasData(
-                                                identityRole);
 
-            // Put the Seeded user in that Role.
-            IdentityUserRole<string> identityUserRole = new() 
-                                        { RoleId = identityRole.Id, 
-                                          UserId = identityUser.Id // created in previous migration
-            };
+            builder.Entity<IdentityRole>().HasData(
+                                                identityRoles);
+
+            List<IdentityUserRole<string>> identityUserRoles = new List<IdentityUserRole<string>>();
+            
+
+            // Add the current user to two roles
+            foreach (IdentityRole item in identityRoles)
+            {
+                // Put the Seeded user in that Role.
+                identityUserRoles.Add(
+                new()
+                {
+                    RoleId = item.Id,
+                    UserId = identityUser.Id // created in previous migration
+                });
+            }
             builder.Entity<IdentityUserRole<string>>().HasData(
-                                                identityUserRole);
+                                                identityUserRoles.ToArray());
 
             // Claims are not automatically seeded based on user role above so
             // we have to add a claim to the user's role in seeding
             // And note you have to add a migration for this claim change as well.
             var adminClaim = new Claim(ClaimTypes.Role, "Admin");
+            var clubClaim = new Claim(ClaimTypes.Role, "Club Captain");
 
+            // Add admin role claim
             builder.Entity<IdentityUserClaim<string>>().HasData(
                 new IdentityUserClaim<string>
                 {
-                    Id = 1, // Change this ID as needed
+                    Id = 1, 
                     UserId = identityUser.Id,
                     ClaimType = adminClaim.Type,
                     ClaimValue = adminClaim.Value
+                }
+            );
+            // Add Club Captain Role Claim
+            builder.Entity<IdentityUserClaim<string>>().HasData(
+                new IdentityUserClaim<string>
+                {
+                    Id = 2, // Change this ID as needed
+                    UserId = identityUser.Id,
+                    ClaimType = clubClaim.Type,
+                    ClaimValue = clubClaim.Value
                 }
             );
 

@@ -5,7 +5,17 @@
 }
 
 <h1>Index</h1>
-
+@if (ViewData["claims"] != null)
+        {
+            foreach (var item in ViewData["claims"] as IEnumerable<string>)
+            {
+                <label>@item</label>
+            }
+        }
+        else
+        {
+            <label>No Roles </label>
+        }
 <p>
     <a asp-action="Create">Create New</a>
 </p>
