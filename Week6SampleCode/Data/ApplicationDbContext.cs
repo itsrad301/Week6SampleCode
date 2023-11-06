@@ -56,32 +56,32 @@ namespace Week6SampleCode.Data
             builder.Entity<IdentityUserRole<string>>().HasData(
                                                 identityUserRoles.ToArray());
 
-            // Claims are not automatically seeded based on user role above so
-            // we have to add a claim to the user's role in seeding
+            
+            // we can add a claim to the user's role in seeding
             // And note you have to add a migration for this claim change as well.
-            var adminClaim = new Claim(ClaimTypes.Role, "Admin");
-            var clubClaim = new Claim(ClaimTypes.Role, "Club Captain");
+            //var adminClaim = new Claim(ClaimTypes.Role, "Admin");
+            //var clubClaim = new Claim(ClaimTypes.Role, "Club Captain");
 
-            // Add admin role claim
-            builder.Entity<IdentityUserClaim<string>>().HasData(
-                new IdentityUserClaim<string>
-                {
-                    Id = 1, 
-                    UserId = identityUser.Id,
-                    ClaimType = adminClaim.Type,
-                    ClaimValue = adminClaim.Value
-                }
-            );
-            // Add Club Captain Role Claim
-            builder.Entity<IdentityUserClaim<string>>().HasData(
-                new IdentityUserClaim<string>
-                {
-                    Id = 2, // Change this ID as needed
-                    UserId = identityUser.Id,
-                    ClaimType = clubClaim.Type,
-                    ClaimValue = clubClaim.Value
-                }
-            );
+            //// Add admin role claim
+            //builder.Entity<IdentityUserClaim<string>>().HasData(
+            //    new IdentityUserClaim<string>
+            //    {
+            //        Id = 1, 
+            //        UserId = identityUser.Id,
+            //        ClaimType = adminClaim.Type,
+            //        ClaimValue = adminClaim.Value
+            //    }
+            //);
+            //// Add Club Captain Role Claim
+            //builder.Entity<IdentityUserClaim<string>>().HasData(
+            //    new IdentityUserClaim<string>
+            //    {
+            //        Id = 2, // Change this ID as needed
+            //        UserId = identityUser.Id,
+            //        ClaimType = clubClaim.Type,
+            //        ClaimValue = clubClaim.Value
+            //    }
+            //);
 
             base.OnModelCreating(builder);
         }

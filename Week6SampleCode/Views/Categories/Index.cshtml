@@ -5,11 +5,14 @@
 }
 
 <h1>Index</h1>
+<H2>Current User Roles</H2>
 @if (ViewData["claims"] != null)
         {
             foreach (var item in ViewData["claims"] as IEnumerable<string>)
             {
-                <label>@item</label>
+                
+                <H3>@item</H3>
+                <p></p>
             }
         }
         else

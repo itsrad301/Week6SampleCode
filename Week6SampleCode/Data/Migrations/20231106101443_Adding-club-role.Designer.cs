@@ -12,8 +12,8 @@ using Week6SampleCode.Data;
 namespace Week6SampleCode.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231105205831_add-multiple-roles")]
-    partial class addmultipleroles
+    [Migration("20231106101443_Adding-club-role")]
+    partial class Addingclubrole
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,15 @@ namespace Week6SampleCode.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "52efc262-5c40-4698-af4c-f52de3a4f308",
-                            ConcurrencyStamp = "0d9846b1-a439-4542-9833-8ff69bf9dc67",
+                            Id = "82318110-804b-4126-afa0-67c519ff542c",
+                            ConcurrencyStamp = "dad4fec5-6752-4f17-9960-101e326b8a25",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "02a72bc6-1666-48a0-ac62-e95d7ad68c3e",
-                            ConcurrencyStamp = "f35e63ab-cd9d-45d5-8ff7-7e93f2a2979c",
+                            Id = "643bcab1-60c3-47b3-9248-ee42e91b11c1",
+                            ConcurrencyStamp = "ddc88d95-d903-404b-aae4-d10867b4138b",
                             Name = "Club Captain",
                             NormalizedName = "CLUB CAPTAIN"
                         });
@@ -160,16 +160,16 @@ namespace Week6SampleCode.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9",
+                            Id = "e924efdf-c056-4467-b1a1-0b4ecd2ccbbe",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8aa35b87-e64d-45a5-8ed5-8e769cebaedb",
+                            ConcurrencyStamp = "07f6df0a-05d6-46a7-8c67-a339bf00612f",
                             Email = "paul.powell@atu.ie",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "PAUL.POWELL@ATU.IE",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJOxa7ErbfNjyTL04K0/Hdmjt+rqX7ox1yGBpG4MnDmN/auQdnJt+k/n3A2F0MsV7A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ/qzIf46kgHbhMBv5WBgoZJUUzHNppcQkhODEIhZE09nJ91lm8iRlM3RDPLf1vTxg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "698d8545-ab32-4285-a294-6d06dd87234c",
+                            SecurityStamp = "71a5ea5b-8b0d-44eb-bdec-2db58ec932e8",
                             TwoFactorEnabled = false,
                             UserName = "paul.powell@atu.ie"
                         });
@@ -198,22 +198,6 @@ namespace Week6SampleCode.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                            ClaimValue = "Admin",
-                            UserId = "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
-                            ClaimValue = "Club Captain",
-                            UserId = "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -257,13 +241,13 @@ namespace Week6SampleCode.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9",
-                            RoleId = "52efc262-5c40-4698-af4c-f52de3a4f308"
+                            UserId = "e924efdf-c056-4467-b1a1-0b4ecd2ccbbe",
+                            RoleId = "82318110-804b-4126-afa0-67c519ff542c"
                         },
                         new
                         {
-                            UserId = "9f7dcd0f-e380-4f1d-b1c7-862d0b18acb9",
-                            RoleId = "02a72bc6-1666-48a0-ac62-e95d7ad68c3e"
+                            UserId = "e924efdf-c056-4467-b1a1-0b4ecd2ccbbe",
+                            RoleId = "643bcab1-60c3-47b3-9248-ee42e91b11c1"
                         });
                 });
 

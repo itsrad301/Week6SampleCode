@@ -18,20 +18,26 @@ namespace Week6SampleCode.Controllers
     {
         private readonly SignInManager<IdentityUser> _signinManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly BusinessContext _context;
 
-        public CategoriesController(BusinessContext context, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public CategoriesController(BusinessContext context, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _signinManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
             _context = context;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-              var claims = _signinManager.Context.User.Claims.Where(r => r.Type == ClaimTypes.Role).Select( v => v.Value).ToList();
-               ViewData["claims"] = claims;
+              var claims = _signinManager.Context.User
+                .Claims.Where(r => r.Type == ClaimTypes.Role).Select( v => v.Value).ToList();
+              var user = await _userManager.GetUserAsync(_signinManager.Context.User);
+            var roles = await _userManager.GetRolesAsync(user);
+              ViewData["claims"] = claims;
+
               return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'BusinessContext.Categories'  is null.");
