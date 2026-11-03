@@ -1,0 +1,105 @@
+@model IEnumerable<ProductModel.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h1 class="mb-0">Products</h1>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="Create" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle"></i> Create New Product
+            </a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CategoryID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UnitPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.dateFirstIssued)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.QuantityInStock)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Suppliers)
+                            </th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.CategoryID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.ProductID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Description)
+                                </td>
+                                <td>
+                                    <span class="badge bg-success">$@Html.DisplayFor(model => item.UnitPrice)</span>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.dateFirstIssued)
+                                </td>
+                                <td>
+                                    @{
+                                        var quantity = item.QuantityInStock;
+                                        var badgeClass = quantity > 10 ? "bg-success" : quantity > 0 ? "bg-warning" : "bg-danger";
+                                    }
+                                    <span class="badge @badgeClass">@quantity</span>
+                                </td>
+                                <td>
+                                    @if (item.Suppliers != null && item.Suppliers.Any())
+                                    {
+                                        @Html.DisplayFor(model => item.Suppliers.First().SupplierName)
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No Supplier</span>
+                                    }
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a asp-action="Details" asp-route-id="@item.ProductID" class="btn btn-outline-info" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.ProductID" class="btn btn-outline-primary" title="Edit Product">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.ProductID" class="btn btn-outline-danger" title="Delete Product">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

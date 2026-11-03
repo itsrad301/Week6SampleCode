@@ -2,7 +2,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h2>Welcome to Week 08 Product Sample MVC App</h2>
+@if (@ViewData["UserName"] != null)
+    {
+    <h3>You are logged in as @ViewData["UserName"]</h3>
+    <h4>Your Roles are</h4>
+    }
+<p></p>
+<ul>
+    @if(ViewData["claims"] != null){
+        @foreach (var claim in (List<string>)ViewData["claims"] as IEnumerable<string>)
+        {
+            <li>@claim</li>
+        }
+    }
+    else{
+        <li>No claims found.</li>
+        }
+</ul>

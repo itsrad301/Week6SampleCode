@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProductModel; // Previously used for the Product, Supplier, Category and SupplierProduct classes
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Week6SampleCode2026.Data.Business_Data; // For the Business Context
 
 namespace Week6SampleCode2026.Controllers
@@ -14,6 +16,9 @@ namespace Week6SampleCode2026.Controllers
     [Authorize(Roles ="Admin")]
     public class CategoriesController : Controller
     {
+        private readonly SignInManager<IdentityUser> _signinManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly BusinessContext _context;
 
         public CategoriesController(BusinessContext context)
@@ -24,7 +29,13 @@ namespace Week6SampleCode2026.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
+            var claims = _signinManager.Context.User
+               .Claims.Where(r => r.Type == ClaimTypes.Role).Select(v => v.Value).ToList();
+            var user = await _userManager.GetUserAsync(_signinManager.Context.User);
+            var roles = await _userManager.GetRolesAsync(user);
+            ViewData["claims"] = claims;
+
+            return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'BusinessContext.Categories'  is null.");
         }

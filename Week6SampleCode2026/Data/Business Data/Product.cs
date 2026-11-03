@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace ProductModel
         public int QuantityInStock { get; set; }
         public virtual Category associatedCategory { get; set; }
 
+        [DisplayName("Suppliers")]
         public ICollection<Supplier> Suppliers { get; set; }
     }
 }
